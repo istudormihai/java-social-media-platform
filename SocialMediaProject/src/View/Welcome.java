@@ -45,9 +45,40 @@ public class Welcome {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (firstName.isEmpty()) {
-                    System.out.println("First Name cannot be empty");
+                    new Alert("First Name cannot be empty", frame);
                     return;
                 }
+
+                if (lastName.isEmpty()) {
+                    new Alert("Last Name cannot be empty", frame);
+                    return;
+                }
+
+                if (email.isEmpty()) {
+                    new Alert("Email cannot be empty", frame);
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    new Alert("Password cannot be empty", frame);
+                    return;
+                }
+
+                if (password.getText().length() < 6) {
+                    new Alert("Password must contain at least 6 characters", frame);
+                    return;
+                }
+
+                if (confirmPassword.isEmpty()) {
+                    new Alert("Please confirm your password", frame);
+                    return;
+                }
+
+                if (!password.getText().equals(confirmPassword.getText())) {
+                    new Alert("Passwords do not match", frame);
+                    return;
+                }
+
             }
 
             @Override
