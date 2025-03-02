@@ -1,5 +1,9 @@
 package View;
 
+import Controller.CreateUser;
+import Model.Database;
+import Model.User;
+
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -12,7 +16,7 @@ import javax.swing.JPanel;
 
 public class Welcome {
 
-    public Welcome() {
+    public Welcome(Database database) {
         JFrame frame = new JFrame();
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -77,6 +81,20 @@ public class Welcome {
                 if (!password.getText().equals(confirmPassword.getText())) {
                     new Alert("Passwords do not match", frame);
                     return;
+                }
+
+                User u = new User();
+                u.setFirstName(firstName.getText());
+                u.setLastName(lastName.getText());
+                u.setEmail(email.getText());
+                u.setPassword(password.getText());
+                CreateUser create = new CreateUser(u, database);
+                if(!create.isEmailUsed()) {
+                    create.create();
+                    u = create.getUser();
+                    new Alert("Account created successfully, ID:" + u.getID(), frame);
+                } else {
+                    new Alert("This email has been already taken!", frame);
                 }
 
             }
