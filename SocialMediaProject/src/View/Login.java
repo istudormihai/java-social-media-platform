@@ -1,9 +1,15 @@
 package View;
 
+import Controller.ReadUser;
+import Model.Database;
+import Model.User;
+
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -11,7 +17,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Login {
 
-    public Login() {
+    public Login(Database database) {
 
         JFrame frame = new JFrame();
 
@@ -35,13 +41,83 @@ public class Login {
 
         JButton login = new JButton("login", 45, 20);
 
+        login.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (email.isEmpty()) {
+                    new Alert("Email cannot be empty", frame);
+                    return;
+                }
+                if (password.isEmpty()) {
+                    new Alert("Password cannot be empty", frame);
+                    return;
+                }
 
+                ReadUser read = new ReadUser(email.getText(), password.getText(), database);
+                if (read.loggedIn()) {
+                    User user = read.getUser();
+                    new Alert("Logged in successfully, ID" + user.getID(), frame);
+                } else {
+                    new Alert("Incorrect Email or Password!", frame);
+                }
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         center.add(login);
 
         panel.add(center, BorderLayout.CENTER);
 
         JLabel createAcc = new JLabel("Don't have an account? Create one!", 20, GUIConstants.black, Font.BOLD);
+
+        createAcc.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Welcome(database);
+                frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         createAcc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         createAcc.setHorizontalAlignment(JLabel.CENTER);
         panel.add(createAcc, BorderLayout.SOUTH);

@@ -129,7 +129,7 @@ public class Welcome {
         login.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Login();
+                new Login(database);
                 frame.dispose();
             }
 
